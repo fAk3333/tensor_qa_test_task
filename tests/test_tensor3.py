@@ -1,7 +1,5 @@
 import time
 from pages.sbis_page import SbisPage
-from pages.tensor_page import TensorPage
-from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import logging
@@ -30,7 +28,7 @@ logger.addHandler(console_handler)
 
 def get_latest_file(download_directory):
     """
-    Получить путь к последнему загруженному файлу в указанной директории.
+    Получает путь к последнему загруженному файлу в указанной директории.
     """
     files = [os.path.join(download_directory, f) for f in os.listdir(download_directory)]
     if not files:
@@ -72,6 +70,6 @@ def test_tensor_page(driver):
         logger.error("Не удалось найти загруженный файл.")
 
     logger.info('Проверка размера файла')
-    assert f"{file_size / (1024 * 1024):.2f}" in 'Скачать (Exe 11.05 МБ)'
+    assert f"{file_size / (1024 * 1024):.2f}" in 'Скачать (Exe 11.05 МБ)', "Размеры не совпадают"
 
     logger.info('Тест кейс успешно выполнен')

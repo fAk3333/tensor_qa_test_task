@@ -5,6 +5,8 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 
 class SbisPage(BasePage):
+
+    # Константные селекторы
     CONTACTS_LINK = (By.LINK_TEXT, "Контакты")
     TENSOR_BANNER = (By.CSS_SELECTOR, "img[alt='Разработчик системы СБИС — компания «Тензор»']")
     REGION_SELECTOR = (By.CSS_SELECTOR, "span.sbis_ru-Region-Chooser__text.sbis_ru-link")
@@ -16,16 +18,17 @@ class SbisPage(BasePage):
     DOWNLOAD_BUTTON = (By.XPATH, "//a[contains(text(), 'Скачать (Exe 11.05 МБ)')]")
 
     def go_to_contacts(self):
+        # Переход к контактам
         self.find_element(self.CONTACTS_LINK).click()
 
     def click_tensor_banner(self):
-        # Найти элемент баннера
+        # Найти элемент баннер
         element = self.find_element(self.TENSOR_BANNER)
 
         # Хранение идентификатора основной вкладки
         original_window = self.driver.current_window_handle
 
-        # Клик по элементу
+        # Клик по баннеру
         element.click()
 
         # Переключение на новую вкладку
@@ -40,6 +43,9 @@ class SbisPage(BasePage):
         self.driver.switch_to.window(new_window)
 
     def get_region_text(self):
+        '''
+        Находит название региона
+        '''
         try:
             region_element = WebDriverWait(self.driver, 10).until(
                 EC.visibility_of_element_located(self.REGION_SELECTOR)
@@ -50,6 +56,9 @@ class SbisPage(BasePage):
             return None
 
     def get_city_text(self):
+        '''
+        Находит название города
+        '''
         try:
             city_element = WebDriverWait(self.driver, 10).until(
                 EC.visibility_of_element_located(self.CITY_SELECTOR)
@@ -60,19 +69,25 @@ class SbisPage(BasePage):
             return None
 
     def select_region(self):
+        '''
+        Выбирает регион камчатка
+        '''
         # Нажать на кнопку "Республика Крым"
         crimea_button = WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable(self.CRIMEA_BUTTON)
         )
         crimea_button.click()
 
-        # Ожидание и нажатие на кнопку "41 Камчатский край" в выпадающем меню
+        # Ожидание и нажатие на кнопку "41 Камчатский край"
         kamchatka_button = WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable(self.KAMCHATKA_BUTTON)
            )
         kamchatka_button.click()
 
     def get_partner_name(self):
+        '''
+        Находит название компании партнёра
+        '''
         try:
             region_name_element = WebDriverWait(self.driver, 10).until(
                 EC.visibility_of_element_located(self.PARTNER_NAME)
@@ -81,6 +96,7 @@ class SbisPage(BasePage):
         except TimeoutException:
             print("Не удалось найти элемент с названием региона")
             return None
+
     def get_page_title(self):
         return self.driver.title
 

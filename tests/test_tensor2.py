@@ -1,9 +1,5 @@
 import time
 from pages.sbis_page import SbisPage
-from pages.tensor_page import TensorPage
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 import logging
 
 # Настройка логирования

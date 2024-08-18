@@ -5,14 +5,11 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 
 class TensorPage(BasePage):
-    # Попробуем более простой локатор для блока "Сила в людях"
+    # Константные селекторы
     PEOPLE_POWER_SECTION = (By.CSS_SELECTOR,
                             "#container > div.tensor_ru-content_wrapper > div > div.tensor_ru-Index__block4-bg > div > div > div:nth-child(1) > div > p.tensor_ru-Index__card-title.tensor_ru-pb-16")
-
-    # Обновим локатор для ссылки "Подробнее" на более общий
     MORE_DETAILS_LINK = (By.XPATH,
                          "/html/body/div[1]/div/div/div[2]/div[1]/div[2]/div[1]/div/div/div[1]/div/div[5]/div/div/div[1]/div/p[4]/a")
-
     WORK_SECTION_SELECTORS = [
         "//img[@alt='Разрабатываем систему СБИС']",
         "//img[@alt='Продвигаем сервисы']",
@@ -31,18 +28,18 @@ class TensorPage(BasePage):
             return None
 
     def click_more_details(self):
-        element = WebDriverWait(self.driver, 20).until(
-            EC.element_to_be_clickable(self.MORE_DETAILS_LINK)
-        )
-        self.driver.execute_script("arguments[0].click();", element)
-
-    def click_more_details(self):
+        '''
+        Переходит по кнопке подробнее
+        '''
         element = WebDriverWait(self.driver, 20).until(
             EC.element_to_be_clickable(self.MORE_DETAILS_LINK)
         )
         self.driver.execute_script("arguments[0].click();", element)
 
     def get_work_images_dimensions(self):
+        '''
+        Проверка картинок
+        '''
         dimensions = []
         for xpath in self.WORK_SECTION_SELECTORS:
             try:
